@@ -1,14 +1,219 @@
 <!DOCTYPE html>
-<html>
+<html lang="uz">
 <head>
-    <title>Meva Bot Web App</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Shuhrat Abrorov | Bog'dorchilik</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <style>
-        body { background: #008f68; color: white; text-align: center; font-family: sans-serif; padding-top: 50px; }
-        .card { background: white; color: #008f68; margin: 20px; padding: 20px; border-radius: 20px; }
+        :root {
+            --izumrud: #008f68;
+            --oq: #ffffff;
+            --bg-light: #f4f7f6;
+            --dark-green: #004d3d;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--dark-green);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Yuqori qism animatsiyasi */
+        .header {
+            background: linear-gradient(135deg, var(--izumrud), #00b386);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        /* Play Market uslubidagi Kategoriya Slayderi */
+        .section-title {
+            padding: 20px 20px 10px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .horizontal-scroll {
+            display: flex;
+            overflow-x: auto;
+            padding: 10px 20px;
+            gap: 15px;
+            scrollbar-width: none;
+        }
+        .horizontal-scroll::-webkit-scrollbar { display: none; }
+
+        /* Kitob kartochkasi - Play Market style */
+        .book-card {
+            min-width: 130px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        .book-card:active { transform: scale(0.95); }
+        .book-img {
+            width: 100%;
+            height: 160px;
+            background: #e0e0e0;
+            object-fit: cover;
+        }
+        .book-info { padding: 8px; }
+        .book-name { font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .book-price { color: var(--izumrud); font-weight: bold; font-size: 0.85rem; }
+
+        /* Ob-havo Vidjeti */
+        .weather-widget {
+            margin: 20px;
+            background: white;
+            border-radius: 25px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(to right, #ffffff, #e6f7f2);
+            border: 1px solid rgba(0,143,104,0.1);
+        }
+        .weather-info h4 { margin: 0; color: #666; font-size: 0.9rem; }
+        .weather-temp { font-size: 2.2rem; font-weight: bold; margin: 5px 0; }
+
+        /* Kategoriyalar (Grid) */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 20px;
+        }
+        .cat-item {
+            background: white;
+            padding: 15px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            border: 1px solid transparent;
+            transition: 0.3s;
+        }
+        .cat-item:active { border-color: var(--izumrud); background: #f0fdf4; }
+        .cat-icon { font-size: 2.5rem; margin-bottom: 10px; display: block; }
+
+        /* Pastki rasm o'tib turishi (Moving Background) */
+        .footer-banner {
+            margin-top: 20px;
+            height: 100px;
+            background: url('https://www.transparenttextures.com/patterns/leaf.png'), var(--izumrud);
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
-    <h1>Assalomu alaykum!</h1>
-    <div class="card">Bu yerda sizning ajoyib bog'dorchilik ilovangiz bo'ladi.</div>
+
+    <div class="header">
+        <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_m6cu97lc.json" background="transparent" speed="1" style="width: 80px; height: 80px; margin: 0 auto;" loop autoplay></lottie-player>
+        <h2 style="margin: 10px 0 5px;">Meva va Sabzavotchilik</h2>
+        <p style="font-size: 0.9rem; opacity: 0.9;">Shuhrat Abrorov bilan bog'dorchilik sirlari</p>
+    </div>
+
+    <!-- Ob-havo qismi -->
+    <div class="section-title">
+        <span>🌤 Ob-havo ma'lumoti</span>
+        <small style="color: var(--izumrud)">Batafsil</small>
+    </div>
+    <div class="weather-widget">
+        <div class="weather-info">
+            <h4>Toshkent, Bugun</h4>
+            <div class="weather-temp">+24°C</div>
+            <div style="color: var(--izumrud); font-size: 0.8rem;">● Havo ochiq, purkash uchun qulay</div>
+        </div>
+        <lottie-player src="https://assets9.lottiefiles.com/temp/lf20_Stda5E.json" background="transparent" speed="1" style="width: 70px; height: 70px;" loop autoplay></lottie-player>
+    </div>
+
+    <!-- Kitoblar (Play Market uslubida) -->
+    <div class="section-title">
+        <span>📚 Tavsiya etilgan kitoblar</span>
+        <small style="color: var(--izumrud)">Hammasi</small>
+    </div>
+    <div class="horizontal-scroll">
+        <!-- Kitob 1 -->
+        <div class="book-card" onclick="openBook('Mevachilik')">
+            <img src="https://images.unsplash.com/photo-1615485242231-97992954a732?q=80&w=300&h=400&fit=crop" class="book-img">
+            <div class="book-info">
+                <div class="book-name">Olma yetishtirish sirlari</div>
+                <div class="book-price">45 000 UZS</div>
+            </div>
+        </div>
+        <!-- Kitob 2 -->
+        <div class="book-card" onclick="openBook('Agrotexnika')">
+            <img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=300&h=400&fit=crop" class="book-img">
+            <div class="book-info">
+                <div class="book-name">Zamonaviy Issiqxonalar</div>
+                <div class="book-price">60 000 UZS</div>
+            </div>
+        </div>
+        <!-- Kitob 3 -->
+        <div class="book-card" onclick="openBook('Sugorish')">
+            <img src="https://images.unsplash.com/photo-1592150621344-22d508832042?q=80&w=300&h=400&fit=crop" class="book-img">
+            <div class="book-info">
+                <div class="book-name">Tomchilatib sug'orish</div>
+                <div class="book-price">35 000 UZS</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kategoriyalar Grid -->
+    <div class="section-title">
+        <span>📂 Xizmatlar</span>
+    </div>
+    <div class="categories-grid">
+        <div class="cat-item" onclick="Telegram.WebApp.showAlert('Tez orada...')">
+            <span class="cat-icon">🧪</span>
+            <strong>Analiz</strong>
+            <p style="font-size: 0.7rem; color: #888;">Tuproq tarkibi</p>
+        </div>
+        <div class="cat-item" onclick="Telegram.WebApp.showAlert('Tez orada...')">
+            <span class="cat-icon">👨‍🌾</span>
+            <strong>Maslahat</strong>
+            <p style="font-size: 0.7rem; color: #888;">Ekspert ko'rigi</p>
+        </div>
+    </div>
+
+    <div class="footer-banner">
+        <span>Har bir nihol - kelajak boyligi</span>
+    </div>
+
+    <script>
+        // Telegram WebApp sozlamalari
+        let tg = window.Telegram.WebApp;
+        tg.expand(); // Ilovani to'liq ekranga yoyish
+        tg.MainButton.setText("Yopish").hide();
+
+        function openBook(name) {
+            tg.showConfirm(name + " haqida batafsil ma'lumot olishni istaysizmi?", function(ok){
+                if(ok) {
+                    tg.sendData("Sotib olish: " + name);
+                    tg.close();
+                }
+            });
+        }
+
+        // Ranglarni Telegram mavzusiga moslashtirish (ixtiyoriy)
+        document.body.style.setProperty('--tg-theme-bg-color', tg.backgroundColor);
+    </script>
 </body>
 </html>
